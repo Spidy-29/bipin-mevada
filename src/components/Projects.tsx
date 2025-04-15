@@ -76,7 +76,7 @@ const Projects: React.FC = () => {
                 />
                 <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity duration-500" />
                 <div className="absolute inset-0 p-6 flex flex-col justify-end transform translate-y-8 group-hover:translate-y-0 transition-transform duration-500">
-                  <div className="text-white text-lg">Click to view full image</div>
+                  <div className="text-white text-lg opacity-0 group-hover:opacity-100 transition-opacity duration-300">Click to view full image</div>
                 </div>
               </div>
             </motion.div>

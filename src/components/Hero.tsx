@@ -1,20 +1,28 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import { getVideos, VideoItem } from "../utils/videoUtils";
 
 const Hero: React.FC = () => {
   const [currentVideoIndex, setCurrentVideoIndex] = useState(0);
   const [videoError, setVideoError] = useState(false);
   const [videos, setVideos] = useState<VideoItem[]>([]);
+  const [isVideoLoading, setIsVideoLoading] = useState(true);
+  const videoRef = useRef<HTMLVideoElement>(null);
 
   // Get videos from the utility function on component mount
   useEffect(() => {
-    // This loads the videos with their metadata from your utility function
     const videoItems = getVideos();
     setVideos(videoItems);
+    
+    // Preload the first video
+    if (videoItems.length > 0) {
+      const preloadVideo = new Image();
+      preloadVideo.src = videoItems[0].path;
+    }
   }, []);
 
   const handleVideoEnd = () => {
     setCurrentVideoIndex((prevIndex) => (prevIndex + 1) % videos.length);
+    setIsVideoLoading(true);
   };
 
   const handleVideoError = (
@@ -22,28 +30,58 @@ const Hero: React.FC = () => {
   ) => {
     console.error("Video loading error:", e);
     setVideoError(true);
+    setIsVideoLoading(false);
   };
+
+  const handleVideoCanPlay = () => {
+    setIsVideoLoading(false);
+    if (videoRef.current) {
+      videoRef.current.play().catch(err => {
+        console.error("Auto play failed:", err);
+        setVideoError(true);
+      });
+    }
+  };
+
+  // Preload next video when current video is playing
+  useEffect(() => {
+    if (videos.length > 1) {
+      const nextIndex = (currentVideoIndex + 1) % videos.length;
+      const preloadVideo = new Image();
+      preloadVideo.src = videos[nextIndex].path;
+    }
+  }, [currentVideoIndex, videos]);
 
   // Get the current video details
   const currentVideo = videos[currentVideoIndex];
 
   return (
-    <div className="relative h-[85vh] w-full overflow-hidden rounded-2xl">
+    <div className="relative h-[85vh] w-full overflow-hidden rounded-2xl" id="hero">
       {/* Video Background */}
       <div className="absolute inset-0">
         {!videoError && videos.length > 0 ? (
-          <video
-            key={currentVideo?.path}
-            autoPlay
-            muted
-            onEnded={handleVideoEnd}
-            onError={handleVideoError}
-            playsInline
-            className="w-full h-full object-cover rounded-2xl"
-          >
-            <source src={currentVideo?.path} type="video/mp4" />
-            Your browser does not support the video tag.
-          </video>
+          <>
+            {/* Loading placeholder while video loads */}
+            {isVideoLoading && (
+              <div className="absolute inset-0 bg-gradient-to-br from-gray-900 to-gray-700 flex items-center justify-center">
+                <div className="w-16 h-16 border-4 border-t-transparent border-white rounded-full animate-spin"></div>
+              </div>
+            )}
+            <video
+              ref={videoRef}
+              key={currentVideo?.path}
+              muted
+              onCanPlay={handleVideoCanPlay}
+              onEnded={handleVideoEnd}
+              onError={handleVideoError}
+              playsInline
+              preload="auto"
+              className={`w-full h-full object-cover rounded-2xl transition-opacity duration-500 ${isVideoLoading ? 'opacity-0' : 'opacity-100'}`}
+            >
+              <source src={currentVideo?.path} type="video/mp4" />
+              Your browser does not support the video tag.
+            </video>
+          </>
         ) : (
           // Fallback background if video fails to load or no videos available
           <div className="w-full h-full bg-gradient-to-br from-gray-900 to-gray-700" />
@@ -83,7 +121,10 @@ const Hero: React.FC = () => {
                 className={`h-1.5 rounded-full transition-all duration-300 ${
                   index === currentVideoIndex ? "w-8 bg-white" : "w-4 bg-white/50"
                 }`}
-                onClick={() => setCurrentVideoIndex(index)}
+                onClick={() => {
+                  setCurrentVideoIndex(index);
+                  setIsVideoLoading(true);
+                }}
                 style={{ cursor: 'pointer' }}
               />
             ))}
