@@ -6,7 +6,7 @@ import { Users, Lightbulb, Building2, Award } from 'lucide-react';
 const stats = [
   { icon: Users, value: '150+', label: 'Happy Clients' },
   { icon: Building2, value: '200+', label: 'Projects Completed' },
-  { icon: Award, value: '15+', label: 'Design Awards' },
+  // { icon: Award, value: '15+', label: 'Design Awards' },
   { icon: Lightbulb, value: '20+', label: 'Years Experience' },
 ];
 
@@ -51,7 +51,7 @@ const About: React.FC = () => {
           </p>
         </motion.div>
 
-        <div className="grid grid-cols-2 md:grid-cols-4 gap-8 mb-20">
+        <div className="grid grid-cols-2 md:grid-cols-3 gap-8 mb-20">
           {stats.map((stat, index) => (
             <motion.div
               key={index}

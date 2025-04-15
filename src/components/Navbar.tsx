@@ -4,11 +4,29 @@ import { Menu, X } from "lucide-react";
 const Navbar: React.FC = () => {
   const [isOpen, setIsOpen] = useState(false);
 
-  const navItems = ["Home", "Projects", "Services", "About", "Contact"];
+  // Navigation items with corresponding section IDs
+  const navItems = [
+    { name: "Home", id: "hero" },
+    { name: "Projects", id: "projects" },
+    { name: "About", id: "about" }
+  ];
+
+  // Function to handle smooth scrolling to sections
+  const scrollToSection = (id: string) => {
+    // Close mobile menu if open
+    if (isOpen) setIsOpen(false);
+    
+    // Find the element
+    const element = document.getElementById(id);
+    if (element) {
+      // Scroll smoothly to the element
+      element.scrollIntoView({ behavior: 'smooth' });
+    }
+  };
 
   return (
     <nav className="sticky top-0 w-full mx-auto z-50 px-4 sm:px-6 lg:px-8 py-2 mt-4">
-      <div className="max-w-full  mx-auto bg-white/80 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 px-6 transition-all duration-300 hover:bg-white/70">
+      <div className="max-w-full mx-auto bg-white/80 backdrop-blur-xl rounded-2xl shadow-lg border border-white/20 px-6 transition-all duration-300 hover:bg-white/70">
         <div className="flex justify-between h-16">
           <div className="flex items-center">
             <div className="h-10 w-10 overflow-hidden scale-150 rounded-2xl">
@@ -18,19 +36,17 @@ const Navbar: React.FC = () => {
                 className="h-full w-full object-cover"
               />
             </div>
-            {/* <span className="ml-2 text-xl font-semibold bg-gradient-to-r from-gray-900 to-gray-600 bg-clip-text text-transparent">
-              Archiform
-            </span> */}
           </div>
 
           {/* Desktop Navigation */}
           <div className="hidden md:flex items-center space-x-8">
             {navItems.map((item) => (
               <button
-                key={item}
-                className="text-gray-900 hover:text-gray-600 px-3 py-2 relative group rounded-lg transition-all duration-300 hover:scale-105"
+                key={item.name}
+                onClick={() => scrollToSection(item.id)}
+                className="text-gray-900 hover:text-gray-600 px-3 py-2 relative group rounded-lg transition-all duration-300 hover:scale-105 font-bold text-lg"
               >
-                {item}
+                {item.name}
                 <span className="absolute bottom-0 left-1/2 w-0 h-0.5 bg-gradient-to-r from-gray-600 to-gray-900 group-hover:w-full group-hover:left-0 transition-all duration-300 rounded-full" />
               </button>
             ))}
@@ -63,10 +79,11 @@ const Navbar: React.FC = () => {
         <div className="bg-white/60 backdrop-blur-xl rounded-xl shadow-lg mx-4 border border-white/20">
           {navItems.map((item) => (
             <button
-              key={item}
-              className="text-gray-900 hover:text-gray-600 block w-full px-4 py-3 text-left hover:bg-gray-50/50 transition-all duration-300 first:rounded-t-xl last:rounded-b-xl hover:scale-[1.02]"
+              key={item.name}
+              onClick={() => scrollToSection(item.id)}
+              className="text-gray-900 hover:text-gray-600 block w-full px-4 py-3 text-left hover:bg-gray-50/50 transition-all duration-300 first:rounded-t-xl last:rounded-b-xl hover:scale-[1.02] font-bold text-lg"
             >
-              {item}
+              {item.name}
             </button>
           ))}
         </div>
