@@ -1,4 +1,3 @@
-
 import Navbar from "./components/Navbar";
 import Hero from "./components/Hero";
 import Projects from "./components/Projects";
@@ -6,6 +5,8 @@ import Testimonials from "./components/Testimonials";
 import About from "./components/About";
 import Footer from "./components/Footer";
 import BackgroundAnimation from "./components/BackgroundAnimation";
+import { Analytics } from "@vercel/analytics/react";
+import { SpeedInsights } from "@vercel/speed-insights/react";
 
 function App() {
   return (
@@ -21,6 +22,8 @@ function App() {
           <Footer />
         </div>
       </div>
+      <Analytics />
+      <SpeedInsights />
     </div>
   );
 }
