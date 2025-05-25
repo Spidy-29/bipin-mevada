@@ -16,17 +16,6 @@ const firebaseConfig = {
   measurementId: import.meta.env.VITE_FIREBASE_MEASUREMENT_ID
 };
 
-// Debug: Check if all required values are loaded
-console.log('Firebase Config:', {
-  hasApiKey: !!firebaseConfig.apiKey,
-  hasAuthDomain: !!firebaseConfig.authDomain,
-  hasProjectId: !!firebaseConfig.projectId,
-  hasStorageBucket: !!firebaseConfig.storageBucket,
-  hasMessagingSenderId: !!firebaseConfig.messagingSenderId,
-  hasAppId: !!firebaseConfig.appId,
-  hasMeasurementId: !!firebaseConfig.measurementId
-});
-
 // Initialize Firebase
 const app = initializeApp(firebaseConfig);
 const analytics = getAnalytics(app);
