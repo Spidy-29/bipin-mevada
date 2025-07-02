@@ -43,7 +43,7 @@ const About: React.FC = () => {
           animate={inView ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.6 }}
         >
-          <h2 className="text-4xl font-bold mb-6">About Archiform</h2>
+          <h2 className="text-4xl font-bold mb-6">About</h2>
           <p className="text-gray-600 max-w-3xl mx-auto">
             Since 2003, we've been transforming spaces and creating exceptional interior experiences.
             Our passion for design excellence and attention to detail has earned us recognition

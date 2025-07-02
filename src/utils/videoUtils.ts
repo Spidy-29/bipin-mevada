@@ -20,6 +20,11 @@ export const getVideos = (): VideoItem[] => {
       path: "/videos/3.mp4",
       title: "",
       description: ""
-    }
+    },
+    {
+      path: "/videos/4.mp4",
+      title: "",
+      description: ""
+    },
   ];
 };

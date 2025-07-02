@@ -15,7 +15,7 @@ const Footer: React.FC = () => {
       <div className="max-w-7xl mx-auto px-6">
         <div className="grid grid-cols-1 md:grid-cols-4 gap-8">
           <div>
-            <h3 className="text-xl font-semibold mb-4">Archiform</h3>
+            <h3 className="text-xl font-semibold mb-4">About</h3>
             <p className="text-gray-600">
               Creating exceptional spaces that inspire and transform lives
               through innovative design and architectural excellence.
